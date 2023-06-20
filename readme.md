@@ -8,7 +8,7 @@ To install the requirements `$ pip install -r requirements.txt`, the code is tes
 ### Run Classification
 This repository contains a simple 3D Convolutional model and a training and testing algorithm, that can be used as starting point for the challenge.
 #### Data path:
-Set the following parameters to the paths of the folders, created by this [repository](https://github.com/LuisaGallee/E2MIP_LIDCI-IDRI_data).
+Set the following parameters to the paths of the folders, created by this [repository](https://github.com/XRad-Ulm/E2MIP_LIDCI-IDRI_data).
 It provides code to create folders with the datasets in the same way as the data folders that will be used to train and test your submitted code.
 * **--training_data_path**: str, e.g. "=training_data"
 * **--testing_data_path**: str, e.g. "=testing_data_classification"
