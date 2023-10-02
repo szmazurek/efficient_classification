@@ -1,5 +1,6 @@
 from torch import nn
 
+
 class threeDClassModel(nn.Module):
     def __init__(self, input_size, num_classes):
         super(threeDClassModel, self).__init__()
@@ -7,13 +8,13 @@ class threeDClassModel(nn.Module):
 
         self.conv_layer1 = self._conv_layer_set(input_size, 32)
         self.conv_layer2 = self._conv_layer_set(32, 64)
-        self.fc1 = nn.Linear(64000, 128)
+        self.fc1 = nn.Linear(175616, 128)
         self.fc2 = nn.Linear(128, num_classes)
         self.relu = nn.LeakyReLU()
         self.batch = nn.BatchNorm1d(128)
-        self.drop = nn.Dropout(p=0.5)#0.15
+        self.drop = nn.Dropout(p=0.5)  # 0.15
 
-        self.outact = nn.Softmax(dim=-1)
+        # self.outact = nn.Softmax(dim=-1)
 
     def _conv_layer_set(self, in_c, out_c):
         conv_layer = nn.Sequential(
@@ -29,9 +30,9 @@ class threeDClassModel(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.fc1(out)
         out = self.relu(out)
-        if out.shape[0]>1:
+        if out.shape[0] > 1:
             out = self.batch(out)
         out = self.drop(out)
         out = self.fc2(out)
-        out = self.outact(out)
+        # out = self.outact(out)
         return out
