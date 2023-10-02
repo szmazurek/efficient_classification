@@ -1,7 +1,0 @@
-/net/tscratch/people/plgmazurekagh/energy_efficient_ai/energy_efficient_env/lib/python3.11/site-packages/lightning/pytorch/loggers/wandb.py:396: UserWarning: There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse this run. If this is not desired, call `wandb.finish()` before instantiating `WandbLogger`.
-  rank_zero_warn(
-Using bfloat16 Automatic Mixed Precision (AMP)
-GPU available: True (cuda), used: True
-TPU available: False, using: 0 TPU cores
-IPU available: False, using: 0 IPUs
-HPU available: False, using: 0 HPUs
