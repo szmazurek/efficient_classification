@@ -1,0 +1,34 @@
+2023-10-02 14:43:42,500 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Current SDK version is 0.15.4
+2023-10-02 14:43:42,500 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Configure stats pid to 528852
+2023-10-02 14:43:42,500 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Loading settings from /net/people/plgrid/plgmazurekagh/.config/wandb/settings
+2023-10-02 14:43:42,500 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Loading settings from /net/tscratch/people/plgmazurekagh/energy_efficient_ai/efficient_classification/wandb/settings
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'api_key': '***REDACTED***'}
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'src/main.py', 'program': '/net/tscratch/people/plgmazurekagh/energy_efficient_ai/efficient_classification/src/main.py'}
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:_log_setup():507] Logging user logs to /net/tscratch/people/plgmazurekagh/energy_efficient_ai/efficient_classification/wandb/run-20231002_144342-v6rals4r/logs/debug.log
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:_log_setup():508] Logging internal logs to /net/tscratch/people/plgmazurekagh/energy_efficient_ai/efficient_classification/wandb/run-20231002_144342-v6rals4r/logs/debug-internal.log
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:init():547] calling init triggers
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {}
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:init():596] starting backend
+2023-10-02 14:43:42,501 INFO    MainThread:528852 [wandb_init.py:init():600] setting up manager
+2023-10-02 14:43:42,505 INFO    MainThread:528852 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-10-02 14:43:42,508 INFO    MainThread:528852 [wandb_init.py:init():606] backend started and connected
+2023-10-02 14:43:42,511 INFO    MainThread:528852 [wandb_init.py:init():703] updated telemetry
+2023-10-02 14:43:42,525 INFO    MainThread:528852 [wandb_init.py:init():736] communicating run to backend with 60.0 second timeout
+2023-10-02 14:43:43,041 INFO    MainThread:528852 [wandb_run.py:_on_init():2176] communicating current version
+2023-10-02 14:43:43,157 INFO    MainThread:528852 [wandb_run.py:_on_init():2185] got version response upgrade_message: "wandb version 0.15.11 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2023-10-02 14:43:43,157 INFO    MainThread:528852 [wandb_init.py:init():787] starting run threads in backend
+2023-10-02 14:43:46,681 INFO    MainThread:528852 [wandb_run.py:_console_start():2155] atexit reg
+2023-10-02 14:43:46,681 INFO    MainThread:528852 [wandb_run.py:_redirect():2010] redirect: 3
+2023-10-02 14:43:46,682 INFO    MainThread:528852 [wandb_run.py:_redirect():2075] Wrapping output streams.
+2023-10-02 14:43:46,682 INFO    MainThread:528852 [wandb_run.py:_redirect():2100] Redirects installed.
+2023-10-02 14:43:46,682 INFO    MainThread:528852 [wandb_init.py:init():828] run started, returning control to user process
+2023-10-02 14:46:12,740 INFO    MainThread:528852 [wandb_run.py:_finish():1890] finishing run mazurek/efficient-classification/v6rals4r
+2023-10-02 14:46:12,741 INFO    MainThread:528852 [wandb_run.py:_atexit_cleanup():2124] got exitcode: 0
+2023-10-02 14:46:12,741 INFO    MainThread:528852 [wandb_run.py:_restore():2107] restore
+2023-10-02 14:46:12,741 INFO    MainThread:528852 [wandb_run.py:_restore():2113] restore done
+2023-10-02 14:46:22,162 INFO    MainThread:528852 [wandb_run.py:_footer_history_summary_info():3467] rendering history
+2023-10-02 14:46:22,163 INFO    MainThread:528852 [wandb_run.py:_footer_history_summary_info():3499] rendering summary
+2023-10-02 14:46:22,166 INFO    MainThread:528852 [wandb_run.py:_footer_sync_info():3426] logging synced files

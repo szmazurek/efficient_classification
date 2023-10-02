@@ -1,0 +1,43 @@
+Using bfloat16 Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/2
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 2 processes
+----------------------------------------------------------------------------------------------------
+/net/tscratch/people/plgmazurekagh/energy_efficient_ai/energy_efficient_env/lib/python3.11/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:615: UserWarning: Checkpoint directory /net/tscratch/people/plgmazurekagh/energy_efficient_ai/efficient_classification/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+  | Name      | Type              | Params
+------------------------------------------------
+0 | model     | threeDClassModel  | 22.5 M
+1 | loss      | BCEWithLogitsLoss | 0
+2 | accuracy  | BinaryAccuracy    | 0
+3 | auroc     | BinaryAUROC       | 0
+4 | f1        | BinaryF1Score     | 0
+5 | precision | BinaryPrecision   | 0
+6 | recall    | BinaryRecall      | 0
+------------------------------------------------
+22.5 M    Trainable params
+0         Non-trainable params
+22.5 M    Total params
+90.142    Total estimated model params size (MB)
+SLURM auto-requeueing enabled. Setting signal handlers.
+/net/tscratch/people/plgmazurekagh/energy_efficient_ai/energy_efficient_env/lib/python3.11/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:432: PossibleUserWarning: The dataloader, val_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 128 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+
+Sanity Checking DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]
+Epoch 0: 100%|██████████| 16/16 [00:03<00:00,  4.09it/s, v_num=20n7, train_loss_step=0.703, train_acc_step=0.554, train_auroc_step=0.608, train_f1_step=0.570, train_precision_step=0.622, train_recall_step=0.529]
+Validation DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]
+
+
+Epoch 2:   0%|          | 0/16 [00:00<?, ?it/s, v_num=20n7, train_loss_step=0.609, train_acc_step=0.669, train_auroc_step=0.728, train_f1_step=0.690, train_precision_step=0.655, train_recall_step=0.731, val_loss=0.584, val_acc=0.731, val_auroc=0.783, val_f1=0.727, val_precision=0.796, val_recall=0.669, train_loss_epoch=0.636, train_acc_epoch=0.636, train_auroc_epoch=0.690, train_f1_epoch=0.654, train_precision_epoch=0.669, train_recall_epoch=0.644]
+
+Epoch 2:  88%|████████▊ | 14/16 [00:02<00:00,  6.36it/s, v_num=20n7, train_loss_step=0.553, train_acc_step=0.715, train_auroc_step=0.800, train_f1_step=0.731, train_precision_step=0.756, train_recall_step=0.712, val_loss=0.584, val_acc=0.731, val_auroc=0.783, val_f1=0.727, val_precision=0.796, val_recall=0.669, train_loss_epoch=0.636, train_acc_epoch=0.636, train_auroc_epoch=0.690, train_f1_epoch=0.654, train_precision_epoch=0.669, train_recall_epoch=0.644]
+
+Epoch 3:   6%|▋         | 1/16 [00:00<00:11,  1.32it/s, v_num=20n7, train_loss_step=0.574, train_acc_step=0.660, train_auroc_step=0.776, train_f1_step=0.672, train_precision_step=0.628, train_recall_step=0.723, val_loss=0.536, val_acc=0.742, val_auroc=0.846, val_f1=0.776, val_precision=0.730, val_recall=0.833, train_loss_epoch=0.575, train_acc_epoch=0.701, train_auroc_epoch=0.770, train_f1_epoch=0.718, train_precision_epoch=0.721, train_recall_epoch=0.720]
+[rank: 0] Received SIGTERM: 15
+Bypassing SIGTERM: 15

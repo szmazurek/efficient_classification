@@ -1,9 +1,6 @@
 import lightning.pytorch as pl
 import torch
-from monai.data import decollate_batch
-from monai.inferers import SliceInferer
 from monai.optimizers import Novograd
-from monai.transforms import Compose
 from torchmetrics import Accuracy, AUROC, F1Score, Precision, Recall
 from efficientnet_pytorch_3d import EfficientNet3D
 from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss
@@ -19,16 +16,13 @@ class LightningModel(pl.LightningModule):
     ):
         super().__init__()
 
-        # self.model = EfficientNet3D.from_name(
-        #     "efficientnet-b0",
-        #     override_params={"num_classes": num_classes},
-        #     in_channels=in_channels,
-        # )
         self.model = threeDClassModel(
             input_size=in_channels, num_classes=num_classes
         )
 
-        self.loss = BCEWithLogitsLoss()
+        self.loss = (
+            BCEWithLogitsLoss() if num_classes == 1 else CrossEntropyLoss()
+        )
 
         self.accuracy = Accuracy("binary")
         self.auroc = AUROC(task="binary")
@@ -126,26 +120,6 @@ class LightningModel(pl.LightningModule):
             sync_dist=True,
         )
         return loss
-
-    # def predict_step(self, batch, batch_idx, dataloader_idx=None):
-    #     x = batch["image"]
-    #     inferer = SliceInferer(
-    #         roi_size=(self.in_shape[2], self.in_shape[3]),
-    #         spatial_dim=2,
-    #         progress=False,
-    #     )
-    #     y_hat = inferer(x, self.model)
-    #     # #### THIS DOES NOT WORK ON OPENNEURO
-    #     # THIS IS DUE TO SOME PROBLEMS WITH INVERSION OF
-    #     # AFFINE TRANSFORMS. THIS VERSION RUNS ON 3D VOLUMES ONLY FROM
-    #     # THE DATASET PROVIDED BY THE CHALLENGE.
-    #     # #####
-    #     batch_copied = batch.copy()
-    #     batch_copied["pred"] = y_hat
-    #     batch_copied = [
-    #         self.predict_transforms(i) for i in decollate_batch(batch_copied)
-    #     ]
-    #     return y_hat
 
     def configure_optimizers(self):
         optimizer = Novograd(
