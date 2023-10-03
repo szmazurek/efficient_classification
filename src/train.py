@@ -1,26 +1,20 @@
-import torch
-from models.lightning_module import LightningModel
 import lightning.pytorch as pl
-from lightning.pytorch.callbacks import (
-    EarlyStopping,
-    ModelCheckpoint,
-)
-
+import torch
+from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.strategies.ddp import DDPStrategy
+from models.lightning_module import LightningModel
 
 torch.set_float32_matmul_precision("medium")
 
 
-def train_lightning(train_loader, val_loader, args):
+def train_lightning(train_loader, args):
     input_channels = next(iter(train_loader))[0].shape[1]
     num_classes = args.num_classes
     model = LightningModel(
         in_channels=input_channels, num_classes=num_classes, lr=args.lr
     )
     model_checkpoint_callback = ModelCheckpoint(
-        save_top_k=1,
-        mode="min",
-        monitor="val_loss",
+        save_last=True,
         dirpath="checkpoints/",
         filename="best_model",
     )
@@ -38,7 +32,8 @@ def train_lightning(train_loader, val_loader, args):
         max_epochs=args.epochs,
         callbacks=model_checkpoint_callback,
         num_sanity_val_steps=0,
+        enable_progress_bar=False,
     )
-    trainer.fit(model, train_loader, val_loader)
+    trainer.fit(model, train_loader)
     process_rank = int(trainer.global_rank)
     return model_checkpoint_callback.best_model_path, process_rank

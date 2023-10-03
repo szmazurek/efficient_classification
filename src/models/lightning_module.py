@@ -1,8 +1,8 @@
 import lightning.pytorch as pl
-from monai.optimizers import Novograd
-from torchmetrics import Accuracy, AUROC, F1Score, Precision, Recall
-from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss
 from models.model_original import threeDClassModel
+from monai.optimizers import Novograd
+from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss
+from torchmetrics import AUROC, Accuracy, F1Score, Precision, Recall
 
 
 class LightningModel(pl.LightningModule):
@@ -39,26 +39,26 @@ class LightningModel(pl.LightningModule):
 
         y_hat = self(x).squeeze()
         loss = self.loss(y_hat, y)
-        acc = self.accuracy(y_hat, y.int())
-        auroc = self.auroc(y_hat, y.int())
-        f1 = self.f1(y_hat, y.int())
-        precision = self.precision(y_hat, y.int())
-        recall = self.recall(y_hat, y.int())
-        self.log_dict(
-            {
-                "train_loss": loss,
-                "train_acc": acc,
-                "train_auroc": auroc,
-                "train_f1": f1,
-                "train_precision": precision,
-                "train_recall": recall,
-            },
-            on_epoch=True,
-            on_step=True,
-            prog_bar=True,
-            logger=True,
-            sync_dist=True,
-        )
+        # acc = self.accuracy(y_hat, y.int())
+        # auroc = self.auroc(y_hat, y.int())
+        # f1 = self.f1(y_hat, y.int())
+        # precision = self.precision(y_hat, y.int())
+        # recall = self.recall(y_hat, y.int())
+        # self.log_dict(
+        #     {
+        #         "train_loss": loss,
+        #         "train_acc": acc,
+        #         "train_auroc": auroc,
+        #         "train_f1": f1,
+        #         "train_precision": precision,
+        #         "train_recall": recall,
+        #     },
+        #     on_epoch=True,
+        #     on_step=True,
+        #     prog_bar=True,
+        #     logger=True,
+        #     sync_dist=True,
+        # )
         return loss
 
     def validation_step(self, batch, batch_idx):

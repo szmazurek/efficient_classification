@@ -1,11 +1,7 @@
-from utils.dataloading_train import load_training_data
+from test import calculate_accuracy_lightning, test_lightning_model
 from train import train_lightning
 from utils.dataloading_test import load_testing_data
-from test import (
-    test_lightning_model,
-    calculate_accuracy_lightning,
-)
-
+from utils.dataloading_train import load_training_data
 
 if __name__ == "__main__":
     import argparse
@@ -50,13 +46,11 @@ if __name__ == "__main__":
         if args.training_data_path is not None:
             # Preprocess training data. When first time called, data is preprocessed and saved to "my_training_data".
             # When this folder exists, data is loaded from it directly.
-            train_loader, val_loader = load_training_data(args)
+            train_loader = load_training_data(args)
 
             # Train model and saves best performing model at model_path.
             # model_path = train_loop_class(train_loader, val_loader, args)
-            model_path, proc_rank = train_lightning(
-                train_loader, val_loader, args
-            )
+            model_path, proc_rank = train_lightning(train_loader, args)
 
             if (
                 args.test

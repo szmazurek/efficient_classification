@@ -1,10 +1,11 @@
-import numpy as np
 import os
+
+import h5py
+import numpy as np
 import torch
 from torch.utils.data import Dataset
+
 from .loading_helper import generateMyTrainingData
-import h5py
-from sklearn.model_selection import train_test_split
 
 
 def load_training_data(args):
@@ -16,18 +17,11 @@ def load_training_data(args):
     h5f = h5py.File("my_training_data/traindata.h5", "r")
     img_train = np.array(h5f["img"])
     tar_label_train = np.array(h5f["tar_label"])
-    split_train, split_val = train_test_split(
-        torch.arange(img_train.shape[0]),
-        test_size=0.05,
-        stratify=tar_label_train,
-    )
-    train_imgs = np.transpose(img_train[split_train], (0, 3, 1, 2))
-    tar_train_labels = tar_label_train[split_train]
-    val_imgs = np.transpose(img_train[split_val], (0, 3, 1, 2))
-    tar_val_labels = tar_label_train[split_val]
+
+    train_imgs = np.transpose(img_train, (0, 3, 1, 2))
+    tar_train_labels = tar_label_train
 
     fin_train_dataset = LIDCDataset(train_imgs, tar_train_labels)
-    fin_val_dataset = LIDCDataset(val_imgs, tar_val_labels)
     train_loader = torch.utils.data.DataLoader(
         fin_train_dataset,
         batch_size=args.batch_size,
@@ -35,19 +29,11 @@ def load_training_data(args):
         pin_memory=True,
         num_workers=6,
         prefetch_factor=3,
-        drop_last=False,
-    )
-    val_loader = torch.utils.data.DataLoader(
-        fin_val_dataset,
-        batch_size=args.batch_size,
-        shuffle=False,
-        pin_memory=True,
-        num_workers=3,
-        prefetch_factor=1,
+        persistent_workers=True,
         drop_last=False,
     )
 
-    return train_loader, val_loader
+    return train_loader
 
 
 class LIDCDataset(Dataset):
