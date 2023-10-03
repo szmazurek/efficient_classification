@@ -14,12 +14,11 @@ class threeDClassModel(nn.Module):
         self.batch = nn.BatchNorm1d(128)
         self.drop = nn.Dropout(p=0.5)  # 0.15
 
-        # self.outact = nn.Softmax(dim=-1)
-
     def _conv_layer_set(self, in_c, out_c):
         conv_layer = nn.Sequential(
             nn.Conv3d(in_c, out_c, kernel_size=(3, 3, 3), padding=0),
             nn.LeakyReLU(),
+            nn.BatchNorm3d(out_c),
             nn.MaxPool3d((2, 2, 2)),
         )
         return conv_layer
@@ -34,5 +33,5 @@ class threeDClassModel(nn.Module):
             out = self.batch(out)
         out = self.drop(out)
         out = self.fc2(out)
-        # out = self.outact(out)
+
         return out

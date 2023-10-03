@@ -1,16 +1,7 @@
-import torch
-import torchvision.transforms as transforms
-
-# from load3dData import load_data
-from utils.dataloading_train import load_training_data
-from train import train_loop_class, train_lightning
+from test import calculate_accuracy_lightning, test_lightning_model
+from train import train_lightning
 from utils.dataloading_test import load_testing_data
-from test import (
-    test_model,
-    calculateAccuracy,
-    test_lightning_model,
-    calculate_accuracy_lightning,
-)
+from utils.dataloading_train import load_training_data
 
 if __name__ == "__main__":
     import argparse
@@ -43,6 +34,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_path", type=str, help="Set the path of the model to be tested"
     )
+    parser.add_argument("--exp_name", type=str, help="Experiment name")
     parser.add_argument("--num_classes", default=1, type=int)
     args = parser.parse_args()
 
@@ -54,21 +46,17 @@ if __name__ == "__main__":
         if args.training_data_path is not None:
             # Preprocess training data. When first time called, data is preprocessed and saved to "my_training_data".
             # When this folder exists, data is loaded from it directly.
-            train_loader, val_loader = load_training_data(args)
-            print("Number of samples in datasets:")
-            print(" training: " + str(len(train_loader.dataset)))
-            print(" validation: " + str(len(val_loader.dataset)))
-            print("Shape of data:")
-            print(" image: " + str(next(iter(train_loader))[0].shape))
-            print(
-                " target malignancy label: "
-                + str(next(iter(train_loader))[1].shape)
-            )
+            train_loader = load_training_data(args)
+
             # Train model and saves best performing model at model_path.
             # model_path = train_loop_class(train_loader, val_loader, args)
-            model_path = train_lightning(train_loader, val_loader, args)
-            print("Model saved at: " + str(model_path))
-            if args.test and args.testing_data_path is not None:
+            model_path, proc_rank = train_lightning(train_loader, args)
+
+            if (
+                args.test
+                and args.testing_data_path is not None
+                and proc_rank == 0
+            ):
                 # Preprocess testing data. When first time called, data is preprocessed and saved to "my_testing_data".
                 # When this folder exists, data is loaded from it directly.
                 test_loader = load_testing_data(args)
@@ -77,7 +65,7 @@ if __name__ == "__main__":
                 args.model_path = model_path
                 # Testing data is being predicted and predictions are being saved in folder "testing_data_prediction_classification".
                 test_lightning_model(test_loader, args)
-                if not args.testing_data_solution_path == None:
+                if args.testing_data_solution_path is not None:
                     # Accuracy metric is being calculated between data in folder args.testing_data_solution_path and "testing_data_prediction_classification".
                     (
                         test_acc,
@@ -96,19 +84,19 @@ if __name__ == "__main__":
                 'Please specify the path to the training data by setting the parameter --training_data_path="path_to_training data"'
             )
     elif args.test:
-        if args.model_path == None:
+        if args.model_path is None:
             raise TypeError(
                 'Please specify the path to model by setting the parameter --model_path="path_to_model"'
             )
         else:
-            if not args.testing_data_path == None:
+            if args.testing_data_path is not None:
                 # Preprocess testing data. When first time called, data is preprocessed and saved to "my_testing_data"; this takes a considerably amount of time.
                 # When this folder exists, data is loaded from it directly.
                 test_loader = load_testing_data(args)
                 # Testing data is being predicted and predictions are being saved in folder "testing_data_prediction_classification".
                 # test_model(test_loader, args)
                 test_lightning_model(test_loader, args)
-                if not args.testing_data_solution_path == None:
+                if args.testing_data_solution_path is not None:
                     # Accuracy metric is being calculated between data in folder args.testing_data_solution_path and "testing_data_prediction_classification".
                     (
                         test_acc,

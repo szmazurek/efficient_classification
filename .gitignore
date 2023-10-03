@@ -7,3 +7,4 @@ output_files/
 scripts/
 testing_data_prediction_classification/
 wandb_api_key.txt
+wandb/
