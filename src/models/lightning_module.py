@@ -1,8 +1,6 @@
 import lightning.pytorch as pl
-import torch
 from monai.optimizers import Novograd
 from torchmetrics import Accuracy, AUROC, F1Score, Precision, Recall
-from efficientnet_pytorch_3d import EfficientNet3D
 from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss
 from models.model_original import threeDClassModel
 
@@ -19,7 +17,6 @@ class LightningModel(pl.LightningModule):
         self.model = threeDClassModel(
             input_size=in_channels, num_classes=num_classes
         )
-
         self.loss = (
             BCEWithLogitsLoss() if num_classes == 1 else CrossEntropyLoss()
         )
@@ -123,23 +120,10 @@ class LightningModel(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = Novograd(
-            self.parameters(), lr=self.lr, amsgrad=True, weight_decay=0.001
+            self.parameters(),
+            lr=self.lr,
+            amsgrad=True,
+            weight_decay=0.001,
         )
-        # optimizer = torch.optim.SGD(self.parameters(), lr=self.lr)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer,
-            mode="min",
-            factor=0.1,
-            patience=5,
-            verbose=True,
-            threshold=0.001,
-            min_lr=1e-6,
-        )
+
         return optimizer
-        # return {
-        #     "optimizer": optimizer,
-        #     "lr_scheduler": {
-        #         "scheduler": scheduler,
-        #         "monitor": "val_loss",
-        #     },
-        # }

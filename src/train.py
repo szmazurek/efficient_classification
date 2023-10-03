@@ -1,9 +1,11 @@
 import torch
 from models.lightning_module import LightningModel
 import lightning.pytorch as pl
-import wandb
-from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
-from lightning.pytorch.loggers import WandbLogger
+from lightning.pytorch.callbacks import (
+    EarlyStopping,
+    ModelCheckpoint,
+)
+
 from lightning.pytorch.strategies.ddp import DDPStrategy
 
 torch.set_float32_matmul_precision("medium")
@@ -15,13 +17,6 @@ def train_lightning(train_loader, val_loader, args):
     model = LightningModel(
         in_channels=input_channels, num_classes=num_classes, lr=args.lr
     )
-    early_stop_callback = EarlyStopping(
-        monitor="val_loss",
-        min_delta=0.001,
-        patience=10,
-        verbose=True,
-        mode="min",
-    )
     model_checkpoint_callback = ModelCheckpoint(
         save_top_k=1,
         mode="min",
@@ -29,18 +24,7 @@ def train_lightning(train_loader, val_loader, args):
         dirpath="checkpoints/",
         filename="best_model",
     )
-    # wandb.init(
-    #     project="efficient-classification",
-    #     group="general_tests",
-    #     job_type="batch_size_tests",
-    #     name=args.exp_name,
-    # )
-    # wandb_logger = WandbLogger(
-    #     project="efficient-classification",
-    #     group="general_tests",
-    #     job_type="batch_size_tests",
-    #     name=args.exp_name,
-    # )
+
     strategy = DDPStrategy(
         find_unused_parameters=False,
         static_graph=True,
@@ -52,13 +36,8 @@ def train_lightning(train_loader, val_loader, args):
         strategy=strategy,
         log_every_n_steps=1,
         max_epochs=args.epochs,
-        logger=WandbLogger(
-            project="efficient-classification",
-            group="general_tests",
-            job_type="batch_size_tests",
-            name=args.exp_name,
-        ),
-        callbacks=[early_stop_callback, model_checkpoint_callback],
+        callbacks=model_checkpoint_callback,
+        num_sanity_val_steps=0,
     )
     trainer.fit(model, train_loader, val_loader)
     process_rank = int(trainer.global_rank)
