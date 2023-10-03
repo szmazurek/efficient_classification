@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_path", type=str, help="Set the path of the model to be tested"
     )
-    parser.add_argument("--exp_name", type=str, help="Experiment name")
+
     parser.add_argument("--num_classes", default=1, type=int)
     args = parser.parse_args()
 
