@@ -73,10 +73,10 @@ def calculate_accuracy_lightning(args):
     pred = np.stack(pred_list)
     y = torch.from_numpy(y).to("cuda")
     pred = torch.from_numpy(pred).to("cuda")
-    acc = Accuracy("binary").to("cuda")(pred, y)
-    auc = AUROC(task="binary").to("cuda")(pred, y)
-    f1s = F1Score(task="binary").to("cuda")(pred, y)
-    precision = Precision(task="binary").to("cuda")(pred, y)
-    recall = Recall(task="binary").to("cuda")(pred, y)
+    acc = Accuracy("binary").to("cuda")(pred, y).item()
+    auc = AUROC(task="binary").to("cuda")(pred, y).item()
+    f1s = F1Score(task="binary").to("cuda")(pred, y).item()
+    precision = Precision(task="binary").to("cuda")(pred, y).item()
+    recall = Recall(task="binary").to("cuda")(pred, y).item()
 
     return acc, auc, f1s, precision, recall

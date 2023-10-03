@@ -33,6 +33,7 @@ def train_lightning(train_loader, args):
         callbacks=model_checkpoint_callback,
         num_sanity_val_steps=0,
         enable_progress_bar=False,
+        enable_model_summary=False,
     )
     trainer.fit(model, train_loader)
     process_rank = int(trainer.global_rank)
