@@ -12,7 +12,6 @@ class threeDClassModel(nn.Module):
         self.fc2 = nn.Linear(128, num_classes)
         self.relu = nn.LeakyReLU()
         self.batch = nn.BatchNorm1d(128)
-        self.drop = nn.Dropout(p=0.5)  # 0.15
 
     def _conv_layer_set(self, in_c, out_c):
         conv_layer = nn.Sequential(
@@ -31,7 +30,6 @@ class threeDClassModel(nn.Module):
         out = self.relu(out)
         if out.shape[0] > 1:
             out = self.batch(out)
-        out = self.drop(out)
         out = self.fc2(out)
 
         return out
