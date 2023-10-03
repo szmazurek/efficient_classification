@@ -15,5 +15,5 @@ RUN add-apt-repository ppa:deadsnakes/ppa && apt-get update && \
 RUN git clone https://github.com/szmazurek/efficient_classification.git
 WORKDIR  /efficient_classification
 RUN pip3.11 install -r requirements.txt
-
+RUN mkdir checkpoints/
 ENTRYPOINT ["python3.11", "src/main.py"]
